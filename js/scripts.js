@@ -1,13 +1,9 @@
 let trainedNet;
 
-function encode(arg) {
-  return arg.split("").map(x => x.charCodeAt(0) / 256);
-}
-
 function processTrainingData(data) {
   return data.map(d => {
     return {
-      input: encode(d.input),
+      input: d.input,
       output: d.output
     };
   });
@@ -20,14 +16,10 @@ function train(data) {
 }
 
 function execute(input) {
-  let results = trainedNet(encode(input));
+  let results = trainedNet(input);
   console.log(results);
 }
 
 train(trainingData);
 
-// console.log(
-//   execute(
-//     "Whether we are Republican or Democrat, we must now focus on strengthening Background Checks!"
-//   )
-// );
+execute([0.1, 0.1, 0.1]);
