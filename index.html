@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Analyze Sample</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.6.7.min.css" />
+</head>
+
+<body>
+
+  <script type="text/javascript">
+  function processImage() {
+  // Replace the subscriptionKey string value with your valid subscription key.
+  var subscriptionKey = "7f57349ebfcf40e69e1ea117820dd5f9";
+  var uriBase =
+    "https://northeurope.api.cognitive.microsoft.com/vision/v1.0/analyze";
+
+  // Request parameters.
+  var params = {
+    visualFeatures: "Categories,Description,Color",
+    details: "",
+    language: "en"
+  };
+
+  // Display the image.
+  var sourceImageUrl = document.getElementById("inputImage").value;
+  document.querySelector("#sourceImage").src = sourceImageUrl;
+
+  // Perform the REST API call.
+  $.ajax({
+    url: uriBase + "?" + $.param(params),
+
+    // Request headers.
+    beforeSend: function(xhrObj) {
+      xhrObj.setRequestHeader("Content-Type", "application/json");
+      xhrObj.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+    },
+
+    type: "POST",
+
+    // Request body.
+    data: '{"url": ' + '"' + sourceImageUrl + '"}'
+  })
+
+    .done(function(data) {
+      // Show formatted JSON on webpage.
+      $("#responseTextArea").val(JSON.stringify(data, null, 2));
+    })
+
+    .fail(function(jqXHR, textStatus, errorThrown) {
+      // Display error message.
+      var errorString =
+        errorThrown === ""
+          ? "Error. "
+          : errorThrown + " (" + jqXHR.status + "): ";
+      errorString +=
+        jqXHR.responseText === ""
+          ? ""
+          : jQuery.parseJSON(jqXHR.responseText).message;
+      alert(errorString);
+    });
+}
+</script>
+
+  <div class="p-strip">
+    <div class="row">
+      <div class="col-12">
+        <h1>Analyze an image</h1>
+        <p>
+          Image to analyze: <input type="text" name="inputImage" id="inputImage" value="http://upload.wikimedia.org/wikipedia/commons/3/3c/Shaki_waterfall.jpg" />
+        </p>
+        <p>
+          <button class="p-button--positive" onclick="processImage()">Analyze image</button>
+        </p>
+        <div id="wrapper" style="width:1020px; display:table;">
+          <div id="jsonOutput" style="width:600px; display:table-cell;">
+            <p>
+              Response:
+            </p>
+            <textarea id="responseTextArea" class="UIInput" style="width:580px; height:400px;"></textarea>
+          </div>
+          <div id="imageDiv" style="width:420px; display:table-cell;">
+            Source image:
+            <img id="sourceImage" width="400" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./js/training-data.js"></script>
+  <script src="./js/brain.js"></script>
+  <script src="./js/scripts.js"></script>
+</body>
+
+</html>

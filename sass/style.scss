@@ -1,0 +1,5 @@
+// sass-lint:disable border-zero
+p {
+  border: none; // No lint reported
+}
+// sass-lint:enable border-zero
