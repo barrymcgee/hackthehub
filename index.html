@@ -59,6 +59,10 @@
       // Update title
       document.querySelector("#imageDesc").innerHTML =
         data.description.captions[0].text;
+      // Add confidence score
+      const confidenceScore = data.categories[0].score * 100;
+      document.querySelector("#imgConfidence").innerHTML =
+        "(" + parseInt(confidenceScore) + "% confidence)";
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -92,15 +96,13 @@
         </p>
         <hr />
         <div id="jsonOutput">
-          <p>
-            Response:
-          </p>
           <textarea id="responseTextArea" class="UIInput" height="500"></textarea>
         </div>
       </div>
       <div class="col-6 p-divider__block">
         <div>
           <h4 id="imageDesc"></h4>
+          <span id="imgConfidence"></span>
         </div>
 
         <div id="imageDiv">
