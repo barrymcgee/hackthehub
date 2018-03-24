@@ -34,7 +34,7 @@
 
   // Request parameters.
   var params = {
-    visualFeatures: "Categories,Description,Color,Faces",
+    visualFeatures: "Categories,Description,Color,Faces,Adult",
     details: "Celebrities,Landmarks",
     language: "en"
   };
@@ -66,6 +66,7 @@
       document.querySelector("#face-age").innerHTML = "n/a";
       document.querySelector("#face-gender").innerHTML = "n/a";
       document.querySelector("#celebrity").innerHTML = "No";
+      document.querySelector("#adult").innerHTML = "No";
 
       // Show formatted JSON on webpage.
       const dataObj = JSON.stringify(data, null, 2);
@@ -91,6 +92,11 @@
         if (data.categories[0] && data.categories[0].detail.celebrities[0]) {
           document.querySelector("#celebrity").innerHTML = "Yes";
         }
+      }
+
+      isAdult = data.adult.isAdultContent;
+      if (isAdult) {
+        document.querySelector("#adult").innerHTML = "Yes";
       }
     })
 
@@ -159,13 +165,17 @@
   <th scope="row">Celebrity</th>
   <td id="celebrity">n/a</td>
 </tr>
+<tr>
+  <th scope="row">Adult</th>
+  <td id="adult">n/a</td>
+</tr>
 </tbody>
 </table>
       </div>
 
     </div>
   </div>
-  <script src="./js/training-data.js"></script>
+  <!-- <script src="./js/training-data.js"></script> -->
   <script src="./js/brain.js"></script>
   <script src="./js/scripts.js"></script>
 </body>
