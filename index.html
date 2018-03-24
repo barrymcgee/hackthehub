@@ -66,26 +66,34 @@
   <div class="p-strip">
     <div class="row">
       <div class="col-12">
-        <h1>Analyze an image</h1>
+                <h1>#hackthehub 2018</h1>
+      </div>
+    </div>
+    <div class="row p-divider">
+      <div class="col-6 p-divider__block">
         <p>
-          Image to analyze: <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL" />
+          <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL" />
         </p>
-        <p>
+        <p class="u-align--right">
           <button class="p-button--positive" onclick="processImage()">Analyze image</button>
         </p>
-        <div id="wrapper" style="width:1020px; display:table;">
-          <div id="jsonOutput" style="width:600px; display:table-cell;">
-            <p>
-              Response:
-            </p>
-            <textarea id="responseTextArea" class="UIInput" style="width:580px; height:400px;"></textarea>
-          </div>
+        <hr />
+        <div id="jsonOutput">
+          <p>
+            Response:
+          </p>
+          <textarea id="responseTextArea" class="UIInput" height="500"></textarea>
+        </div>
+      </div>
+      <div class="col-6 p-divider__block">
+        <div id="wrapper">
           <div id="imageDiv" style="width:420px; display:table-cell;">
             Source image:
             <img id="sourceImage" width="400" />
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <script src="./js/training-data.js"></script>
