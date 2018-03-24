@@ -22,23 +22,12 @@ function train(data) {
 function execute(input) {
   let results = trainedNet(encode(input));
   console.log(results);
-  let output;
-  let certainty;
-  if (results.trump > results.kardashian) {
-    output = "Donald Trump";
-    certainty = Math.floor(results.trump * 100);
-  } else {
-    output = "Kim Kardashian";
-    certainty = Math.floor(results.kardashian * 100);
-  }
-
-  return "I'm " + certainty + "% sure that tweet was written by " + output;
 }
 
 train(trainingData);
 
-console.log(
-  execute(
-    "emocrats refused to take care of DACA. Would have been so easy, but they just didn’t care. I had to fight for Military and start of Wall."
-  )
-);
+// console.log(
+//   execute(
+//     "Whether we are Republican or Democrat, we must now focus on strengthening Background Checks!"
+//   )
+// );
