@@ -5,6 +5,11 @@
   <title>#hackthehub</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.6.7.min.css" />
+  <style>
+  h4 {
+    text-transform: capitalize;
+  }
+  </style>
 </head>
 
 <body>
@@ -45,7 +50,12 @@
 
     .done(function(data) {
       // Show formatted JSON on webpage.
-      $("#responseTextArea").val(JSON.stringify(data, null, 2));
+      const dataObj = JSON.stringify(data, null, 2);
+      $("#responseTextArea").val(dataObj);
+
+      // Update title
+      document.querySelector("#imageDesc").innerHTML =
+        data.description.captions[0].text;
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -72,7 +82,7 @@
     <div class="row p-divider">
       <div class="col-6 p-divider__block">
         <p>
-          <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL" />
+          <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL" value="https://d2ffutrenqvap3.cloudfront.net/items/2P3w0r3s220r0e1X3r3A/Screen%20Shot%202018-03-24%20at%2013.35.14.png?v=82134d77" />
         </p>
         <p class="u-align--right">
           <button class="p-button--positive" onclick="processImage()">Analyze image</button>
@@ -86,10 +96,12 @@
         </div>
       </div>
       <div class="col-6 p-divider__block">
-        <div id="wrapper">
-          <div id="imageDiv">
-            <img id="sourceImage" width="400" src="http://via.placeholder.com/350x150?text=hackthehub" />
-          </div>
+        <div>
+          <h4 id="imageDesc"></h4>
+        </div>
+
+        <div id="imageDiv">
+          <img id="sourceImage" width="400" src="http://via.placeholder.com/350x150?text=hackthehub" />
         </div>
       </div>
 
