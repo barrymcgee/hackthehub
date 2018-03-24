@@ -12,6 +12,14 @@
   textarea {
     min-height: 400px;
   }
+  .stars {
+    font-size: 3rem;
+    text-align: center;
+    display: none;
+  }
+  #imageDiv img {
+    width: 100%;
+  }
   </style>
 </head>
 
@@ -26,8 +34,8 @@
 
   // Request parameters.
   var params = {
-    visualFeatures: "Categories,Description,Color",
-    details: "",
+    visualFeatures: "Categories,Description,Color,Faces",
+    details: "Celebrities,Landmarks",
     language: "en"
   };
 
@@ -52,6 +60,13 @@
   })
 
     .done(function(data) {
+      // clear data
+      document.querySelector("#imgConfidence").innerHTML = "";
+      document.querySelector("#face").innerHTML = "No";
+      document.querySelector("#face-age").innerHTML = "n/a";
+      document.querySelector("#face-gender").innerHTML = "n/a";
+      document.querySelector("#celebrity").innerHTML = "No";
+
       // Show formatted JSON on webpage.
       const dataObj = JSON.stringify(data, null, 2);
       $("#responseTextArea").val(dataObj);
@@ -60,9 +75,23 @@
       document.querySelector("#imageDesc").innerHTML =
         data.description.captions[0].text;
       // Add confidence score
-      const confidenceScore = data.categories[0].score * 100;
-      document.querySelector("#imgConfidence").innerHTML =
-        "(" + parseInt(confidenceScore) + "% confidence)";
+      if (data.categories[0]) {
+        const confidenceScore = data.categories[0].score * 100;
+        document.querySelector("#imgConfidence").innerHTML =
+          "(" + parseInt(confidenceScore) + "% confidence)";
+      }
+
+      // Add face bool
+      const isFacePresent = data.faces[0];
+
+      if (isFacePresent) {
+        document.querySelector("#face").innerHTML = "Yes";
+        document.querySelector("#face-age").innerHTML = data.faces[0].age;
+        document.querySelector("#face-gender").innerHTML = data.faces[0].gender;
+        if (data.categories[0] && data.categories[0].detail.celebrities[0]) {
+          document.querySelector("#celebrity").innerHTML = "Yes";
+        }
+      }
     })
 
     .fail(function(jqXHR, textStatus, errorThrown) {
@@ -89,7 +118,8 @@
     <div class="row p-divider">
       <div class="col-6 p-divider__block">
         <p>
-          <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL" value="https://d2ffutrenqvap3.cloudfront.net/items/2P3w0r3s220r0e1X3r3A/Screen%20Shot%202018-03-24%20at%2013.35.14.png?v=82134d77" />
+          <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL"
+          value="https://d2ffutrenqvap3.cloudfront.net/items/3Z0C3k0d3t0Y2b422q2e/Screen%20Shot%202018-03-24%20at%2017.31.34.png" />
         </p>
         <p class="u-align--right">
           <button class="p-button--positive" onclick="processImage()">Analyze image</button>
@@ -108,6 +138,29 @@
         <div id="imageDiv">
           <img id="sourceImage" width="400" src="http://via.placeholder.com/350x150?text=hackthehub" />
         </div>
+        <div class="stars">
+          ★★★☆☆
+        </div>
+        <table>
+<tbody>
+<tr>
+  <th scope="row">Face</th>
+  <td id="face">No</td>
+</tr>
+<tr>
+  <th scope="row">Face age</th>
+  <td id="face-age">n/a</td>
+</tr>
+<tr>
+  <th scope="row">Face gender</th>
+  <td id="face-gender">n/a</td>
+</tr>
+<tr>
+  <th scope="row">Celebrity</th>
+  <td id="celebrity">n/a</td>
+</tr>
+</tbody>
+</table>
       </div>
 
     </div>
