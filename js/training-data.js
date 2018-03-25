@@ -1,9 +1,33 @@
 // [{input: [SHARPNESS, BRIGHTNESS, CONTRAST], output: [RATING]},
 
 const trainingData = [
-  { input: [0.986, 0.329, 0.906], output: [1] },
-  { input: [0.25, 0.21, 0.23], output: [2] },
-  { input: [0.3, 0.41, 0.41], output: [3] },
-  { input: [0.55, 0.6, 0.71], output: [4] },
-  { input: [0.85, 0.91, 0.83], output: [5] }
+  {
+    Input: { s: 0.01, b: 0.1, c: 0.1 },
+    Output: { rating: 1 }
+  },
+  {
+    Input: { s: 0.012, b: 0.12, c: 0.12 },
+    Output: { rating: 1 }
+  },
+  {
+    Input: { s: 0.013, b: 0.13, c: 0.13 },
+    Output: { rating: 1 }
+  },
+  //
+  //
+  // Etc.
+  //
+  //
+  {
+    Input: { s: 0.91, b: 0.92, c: 0.93 },
+    Output: { rating: 5 }
+  },
+  {
+    Input: { s: 0.91, b: 0.92, c: 0.93 },
+    Output: { rating: 5 }
+  },
+  {
+    Input: { s: 0.92, b: 0.96, c: 0.93 },
+    Output: { rating: 5 }
+  }
 ];
