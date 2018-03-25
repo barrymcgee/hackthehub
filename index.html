@@ -9,7 +9,7 @@
 
     h1 {
       font-size: 8rem;
-      margin-bottom: 1rem;
+      margin-bottom: 0;
       border-bottom: 1px solid #ccc;
     }
 
@@ -18,11 +18,16 @@
     }
 
     textarea {
-      min-height: 400px;
+      min-height: 300px;
     }
 
     #imageDiv img {
       width: 100%;
+    }
+
+    #imgConfidence {
+      display: block;
+      margin-bottom: 1rem;
     }
 
     .rating {
@@ -107,7 +112,11 @@
         // Set star rating
         const confidenceRating = Math.round(confidenceScore / 20);
 
-        $(".ratings span").removeClass("selected");
+        $(".one").removeClass("selected");
+        $(".two").removeClass("selected");
+        $(".three").removeClass("selected");
+        $(".four").removeClass("selected");
+        $(".five").removeClass("selected");
 
         switch (confidenceRating) {
           case 0:
@@ -169,19 +178,22 @@
           : jQuery.parseJSON(jqXHR.responseText).message;
       alert(errorString);
     });
+
+  // Run machine learning
+  // execute([{ s: 0.92, b: 0.96, c: 0.93 }]);
 }
 </script>
 
   <div class="p-strip u-no-padding--top">
     <div class="row">
-      <div class="col-12 u-align--center">
+      <div class="col-12 u-align--center" style="margin-top:-1rem">
         <h1><img src="https://www.hackthehub2018.com/wp-content/uploads/2018/01/hackthehublogo.png" alt="Hack the hub logo"/> + <img src="https://assets.ubuntu.com/v1/9a081ec9-bazaarvoice.svg" alt="Bazaar voice"></h1>
       </div>
     </div>
     <div class="row p-divider">
       <div class="col-6 p-divider__block">
         <p>
-          <input required type="text" name="inputImage" id="inputImage" placeholder="Add image URL" value="https://d2ffutrenqvap3.cloudfront.net/items/3Z0C3k0d3t0Y2b422q2e/Screen%20Shot%202018-03-24%20at%2017.31.34.png" />
+          <input required type="text" name="inputImage" id="inputImage" placeholder="Add image URL" value="" />
         </p>
         <p class="u-align--right">
           <button class="p-button--positive" onclick="processImage()">Analyze image</button>
@@ -190,17 +202,28 @@
         <div id="jsonOutput">
           <textarea id="responseTextArea" class="UIInput" height="500"></textarea>
         </div>
+        <table>
+          <tbody>
+            <tr>
+              <th scope="row">Recognised brands</th>
+              <td>None</td>
+            </tr>
+            <tr>
+              <th scope="row">Emotion displayed</th>
+              <td>Undetermined</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="col-6 p-divider__block">
         <div>
           <h4 id="imageDesc"></h4>
           <span id="imgConfidence"></span>
         </div>
-
-        <div id="imageDiv">
+        <div id="imageDiv" class="u-no-margin--top">
           <img id="sourceImage" width="400" src="http://via.placeholder.com/350x150?text=hackthehub" />
         </div>
-        <div class="rating">
+        <div class="rating u-no-margin--top">
           <span class="five">☆</span><span class="four">☆</span><span class="three">☆</span><span class="two">☆</span><span class="one">☆</span>
         </div>
         <table>

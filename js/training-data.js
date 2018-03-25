@@ -1,4 +1,4 @@
-// [{input: [SHARPNESS, BRIGHTNESS, CONTRAST], output: [RATING]},
+// [{input: [SHARPNESS, BRIGHTNESS, CONTRAST, TBC, TBC, TBC], output: [RATING]},
 
 const trainingData = [
   {
