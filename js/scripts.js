@@ -22,4 +22,4 @@ function execute(input) {
 
 train(trainingData);
 
-execute([0.1, 0.1, 0.1]);
+// execute([0.1, 0.1, 0.1]);

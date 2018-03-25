@@ -6,20 +6,43 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
   <link rel="stylesheet" href="https://assets.ubuntu.com/v1/vanilla-framework-version-1.6.7.min.css" />
   <style>
-  h4 {
-    text-transform: capitalize;
-  }
-  textarea {
-    min-height: 400px;
-  }
-  .stars {
-    font-size: 3rem;
-    text-align: center;
-    display: none;
-  }
-  #imageDiv img {
-    width: 100%;
-  }
+
+    h1 {
+      font-size: 8rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ccc;
+    }
+
+    h4 {
+      text-transform: capitalize;
+    }
+
+    textarea {
+      min-height: 400px;
+    }
+
+    #imageDiv img {
+      width: 100%;
+    }
+
+    .rating {
+      font-size: 3rem;
+      text-align: center;
+      unicode-bidi: bidi-override;
+      direction: rtl;
+    }
+
+    .rating>span {
+      display: inline-block;
+      position: relative;
+      width: 1.1em;
+    }
+
+    .rating>span.selected:before,
+    .rating>span.selected ~ span:before {
+      content: "\2605";
+      position: absolute;
+    }
   </style>
 </head>
 
@@ -76,10 +99,44 @@
       document.querySelector("#imageDesc").innerHTML =
         data.description.captions[0].text;
       // Add confidence score
-      if (data.categories[0]) {
-        const confidenceScore = data.categories[0].score * 100;
+      confidenceFloat = data.description.captions[0].confidence;
+      if (confidenceFloat) {
+        const confidenceScore = confidenceFloat * 100;
         document.querySelector("#imgConfidence").innerHTML =
           "(" + parseInt(confidenceScore) + "% confidence)";
+        // Set star rating
+        const confidenceRating = Math.round(confidenceScore / 20);
+
+        $(".ratings span").removeClass("selected");
+
+        switch (confidenceRating) {
+          case 0:
+            console.log("Rating is 1");
+            $(".one").addClass("selected");
+            break;
+          case 1:
+            console.log("Rating is 1");
+            $(".one").addClass("selected");
+            break;
+          case 2:
+            console.log("Rating is 2");
+            $(".two").addClass("selected");
+            break;
+          case 3:
+            console.log("Rating is 3");
+            $(".three").addClass("selected");
+            break;
+          case 4:
+            console.log("Rating is 4");
+            $(".four").addClass("selected");
+            break;
+          case 5:
+            console.log("Rating is 5");
+            $(".five").addClass("selected");
+            break;
+          default:
+            console.log("Sorry, no star rating available");
+        }
       }
 
       // Add face bool
@@ -115,17 +172,16 @@
 }
 </script>
 
-  <div class="p-strip">
+  <div class="p-strip u-no-padding--top">
     <div class="row">
-      <div class="col-12">
-        <h1>#hackthehub 2018</h1>
+      <div class="col-12 u-align--center">
+        <h1><img src="https://www.hackthehub2018.com/wp-content/uploads/2018/01/hackthehublogo.png" alt="Hack the hub logo"/> + <img src="https://assets.ubuntu.com/v1/9a081ec9-bazaarvoice.svg" alt="Bazaar voice"></h1>
       </div>
     </div>
     <div class="row p-divider">
       <div class="col-6 p-divider__block">
         <p>
-          <input type="text" name="inputImage" id="inputImage" placeholder="Add image URL"
-          value="https://d2ffutrenqvap3.cloudfront.net/items/3Z0C3k0d3t0Y2b422q2e/Screen%20Shot%202018-03-24%20at%2017.31.34.png" />
+          <input required type="text" name="inputImage" id="inputImage" placeholder="Add image URL" value="https://d2ffutrenqvap3.cloudfront.net/items/3Z0C3k0d3t0Y2b422q2e/Screen%20Shot%202018-03-24%20at%2017.31.34.png" />
         </p>
         <p class="u-align--right">
           <button class="p-button--positive" onclick="processImage()">Analyze image</button>
@@ -144,35 +200,34 @@
         <div id="imageDiv">
           <img id="sourceImage" width="400" src="http://via.placeholder.com/350x150?text=hackthehub" />
         </div>
-        <div class="stars">
-          ★★★☆☆
+        <div class="rating">
+          <span class="five">☆</span><span class="four">☆</span><span class="three">☆</span><span class="two">☆</span><span class="one">☆</span>
         </div>
         <table>
-<tbody>
-<tr>
-  <th scope="row">Face</th>
-  <td id="face">No</td>
-</tr>
-<tr>
-  <th scope="row">Face age</th>
-  <td id="face-age">n/a</td>
-</tr>
-<tr>
-  <th scope="row">Face gender</th>
-  <td id="face-gender">n/a</td>
-</tr>
-<tr>
-  <th scope="row">Celebrity</th>
-  <td id="celebrity">n/a</td>
-</tr>
-<tr>
-  <th scope="row">Adult</th>
-  <td id="adult">n/a</td>
-</tr>
-</tbody>
-</table>
+          <tbody>
+            <tr>
+              <th scope="row">Face</th>
+              <td id="face">No</td>
+            </tr>
+            <tr>
+              <th scope="row">Face age</th>
+              <td id="face-age">n/a</td>
+            </tr>
+            <tr>
+              <th scope="row">Face gender</th>
+              <td id="face-gender">n/a</td>
+            </tr>
+            <tr>
+              <th scope="row">Celebrity</th>
+              <td id="celebrity">n/a</td>
+            </tr>
+            <tr>
+              <th scope="row">Adult Content</th>
+              <td id="adult">n/a</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
     </div>
   </div>
   <script src="./js/training-data.js"></script>
